@@ -1,23 +1,8 @@
-#
-# Ubuntu Desktop (LXDE) Dockerfile
-#
-# https://github.com/dockerfile/ubuntu-desktop
-#
+FROM dorowu-ubuntu-desktop-lxde-vnc:release-v1.1
+ENV GOPATH /gopath
 
-# Pull base image.
-FROM dockerfile/ubuntu
+RUN go get github.com/toukii/web-hw
 
-# Install LXDE and VNC server.
-RUN \
-  apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y lxde-core lxterminal tightvncserver && \
-  rm -rf /var/lib/apt/lists/*
+EXPOSE 80
 
-# Define working directory.
-WORKDIR /data
-
-# Define default command.
-CMD ["bash"]
-
-# Expose ports.
-EXPOSE 5901
+CMD ["/gopath/bin/web-hw"]
